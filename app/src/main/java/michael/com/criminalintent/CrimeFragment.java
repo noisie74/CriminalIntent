@@ -8,6 +8,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import butterknife.BindView;
@@ -21,7 +24,11 @@ public class CrimeFragment extends Fragment {
 
     private Crime mCrime;
     @BindView(R.id.crime_title)
-    private EditText mTitleField;
+    public EditText mTitleField;
+    @BindView(R.id.crime_date)
+    public Button mDateButton;
+    @BindView(R.id.crime_solved)
+    public CheckBox mSolvedCheckBox;
 
 
     @Override
@@ -62,6 +69,16 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+
+        mDateButton.setText(mCrime.getDate().toString());
+        mDateButton.setEnabled(false);
+
+        mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCrime.setSolved(isChecked);
+            }
+        });
 
         return v;
     }

@@ -1,12 +1,16 @@
 package michael.com.criminalintent;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
 
-public class CrimeActivity extends FragmentActivity {
+/**
+ * Created by Mikhail on 8/18/16.
+ */
+public abstract class SingleFragmentActivity extends FragmentActivity {
 
+    protected abstract Fragment createFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,9 +19,9 @@ public class CrimeActivity extends FragmentActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-        if (fragment == null){
+        if (fragment == null) {
             fragment = new CrimeFragment();
-            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
         }
 
     }
