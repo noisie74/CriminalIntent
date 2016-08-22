@@ -1,17 +1,20 @@
 package michael.com.criminalintent.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import michael.com.criminalintent.CrimeActivity;
 import michael.com.criminalintent.R;
 import michael.com.criminalintent.model.Crime;
 
@@ -27,9 +30,10 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
         this.mCrimes = crimes;
     }
 
-    public class CrimeHolder extends RecyclerView.ViewHolder {
+    public class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Crime mCrime;
+        private Context mContext;
 
         @BindView(R.id.list_item_crime_title_text_view)
         public TextView mTitleTextView;
@@ -38,10 +42,25 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
         @BindView(R.id.list_item_crime_solved_check_box)
         public CheckBox mSolvedCheckBox;
 
+        @Override
+        public void onClick(View v) {
+
+//            Toast.makeText(v.getContext(),mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = CrimeActivity.newIntent(mContext,mCrime.getId());
+
+            mContext.startActivity(intent);
+        }
+
         public CrimeHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            mContext = itemView.getContext();
+            itemView.setOnClickListener(this);
+
+
 
         }
     }
