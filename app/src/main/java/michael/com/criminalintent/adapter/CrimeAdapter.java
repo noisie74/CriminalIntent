@@ -46,10 +46,10 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
         public void onClick(View v) {
 
 //            Toast.makeText(v.getContext(),mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
-
-            Intent intent = CrimeActivity.newIntent(mContext,mCrime.getId());
+            Intent intent = CrimeActivity.newIntent(mContext, mCrime.getId());
 
             mContext.startActivity(intent);
+
         }
 
         public CrimeHolder(View itemView) {
@@ -59,7 +59,6 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
 
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
-
 
 
         }
@@ -77,7 +76,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     public void onBindViewHolder(CrimeHolder holder, int position) {
 
         Crime crime = mCrimes.get(position);
-        bindCrime(holder,crime);
+        bindCrime(holder, crime);
 
     }
 

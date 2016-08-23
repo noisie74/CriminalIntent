@@ -32,13 +32,23 @@ public class CrimeFragment extends Fragment {
     public Button mDateButton;
     @BindView(R.id.crime_solved)
     public CheckBox mSolvedCheckBox;
+    private static final String ARG_CRIME_ID = "crime_id";
 
+    public static CrimeFragment newInstance(UUID crimeID) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeID);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UUID crimeID = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        UUID crimeID = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
     }
 
