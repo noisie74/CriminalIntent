@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import michael.com.criminalintent.CrimeActivity;
+import michael.com.criminalintent.CrimePagerActivity;
 import michael.com.criminalintent.R;
 import michael.com.criminalintent.model.Crime;
 
@@ -46,7 +47,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
         public void onClick(View v) {
 
 //            Toast.makeText(v.getContext(),mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
-            Intent intent = CrimeActivity.newIntent(mContext, mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(mContext,mCrime.getId());
 
             mContext.startActivity(intent);
 

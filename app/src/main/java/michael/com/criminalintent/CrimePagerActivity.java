@@ -29,7 +29,7 @@ public class CrimePagerActivity extends FragmentActivity {
     private static final String EXTRA_CRIME_ID = "michael.com.criminalintent.crime_id";
 
 
-    public static Intent newIntent(Context packageContext, UUID crimeID){
+    public static Intent newIntent(Context packageContext, UUID crimeID) {
 
         Intent intent = new Intent(packageContext, CrimePagerActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeID);
@@ -60,5 +60,12 @@ public class CrimePagerActivity extends FragmentActivity {
                 return mCrimes.size();
             }
         });
+
+        for (int i = 0; i < mCrimes.size(); i++) {
+            if (mCrimes.get(i).equals(crimeID)) {
+                mViewPager.setCurrentItem(i);
+            }
+            break;
+        }
     }
 }
