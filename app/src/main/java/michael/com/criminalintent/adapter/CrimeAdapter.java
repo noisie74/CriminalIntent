@@ -95,5 +95,8 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
         return mCrimes.size();
     }
 
+    public void setCrimes(List<Crime> crimes){
+        mCrimes = crimes;
+    }
 
 }

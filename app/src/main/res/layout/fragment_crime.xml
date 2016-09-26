@@ -3,6 +3,9 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <include layout="@layout/view_camera_and_title"/>
+
+
     <TextView
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
@@ -38,6 +41,21 @@
 
     </CheckBox>
 
+    <Button
+        android:id="@+id/crime_suspectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/crime_suspect_text" />
+
+    <Button
+        android:id="@+id/crime_reportButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/crime_report_text" />
 
 </LinearLayout>
 
