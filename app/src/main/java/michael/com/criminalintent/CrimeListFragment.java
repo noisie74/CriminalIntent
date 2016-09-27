@@ -1,6 +1,5 @@
 package michael.com.criminalintent;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,18 +33,7 @@ public class CrimeListFragment extends Fragment {
     public RecyclerView mCrimeRecyclerView;
     private boolean mSubtitleVisible;
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
-    private Callbacks mCallbacks;
     CrimeAdapter mAdapter;
-
-    public interface Callbacks{
-        void onCrimeSelected(Crime crime);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallbacks = (Callbacks) context;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,12 +48,6 @@ public class CrimeListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
     }
 
     @Nullable
@@ -93,7 +75,7 @@ public class CrimeListFragment extends Fragment {
         updateSubtitle();
     }
 
-    public void updateUI() {
+    private void updateUI() {
 
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
@@ -130,6 +112,12 @@ public class CrimeListFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
+            case R.id.delete_crime_action:
+                crime = new Crime();
+                UUID crimeId = crime.getId();
+                CrimeLab.get(getActivity()).deleteCrime(crimeId);
+                Toast.makeText(getActivity(), R.string.deleted, Toast.LENGTH_SHORT).show();
+                mAdapter.notifyDataSetChanged();
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -1,7 +1,6 @@
 package michael.com.criminalintent;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -70,29 +69,17 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
     private File mPhotoFile;
-    private Callbacks mCallbacks;
     PackageManager packageManager;
 
 
-    public interface Callbacks {
-        void onCrimeUpdated(Crime crime);
-    }
-
-    public static CrimeFragment newInstance(UUID crimeID) {
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_CRIME_ID, crimeID);
-        CrimeFragment fragment = new CrimeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallbacks = (Callbacks) context;
-    }
-
+//    public static CrimeFragment newInstance(UUID crimeID) {
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable(ARG_CRIME_ID, crimeID);
+//        CrimeFragment fragment = new CrimeFragment();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +88,7 @@ public class CrimeFragment extends Fragment {
 
         packageManager = getActivity().getPackageManager();
 
-        UUID crimeID = (UUID) getActivity().getIntent().getSerializableExtra(ARG_CRIME_ID);
+        UUID crimeID = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
     }
@@ -172,12 +159,6 @@ public class CrimeFragment extends Fragment {
         CrimeLab.get(getActivity()).updateCrime(mCrime);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -206,7 +187,6 @@ public class CrimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 mCrime.setTitle(s.toString());
-                updateCrime();
             }
 
             @Override
@@ -233,19 +213,12 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCrime.setSolved(isChecked);
-                updateCrime();
             }
         });
 
         updatePhotoView();
 
         return v;
-    }
-
-
-    private void updateCrime() {
-        CrimeLab.get(getActivity()).updateCrime(mCrime);
-        mCallbacks.onCrimeUpdated(mCrime);
     }
 
     private void updateDate() {
@@ -283,7 +256,6 @@ public class CrimeFragment extends Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
-            updateCrime();
             updateDate();
         } else if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
@@ -307,14 +279,12 @@ public class CrimeFragment extends Fragment {
                 // that is your suspect's name.
                 c.moveToFirst();
                 String suspect = c.getString(0);
-                updateCrime();
                 mCrime.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
             } finally {
                 c.close();
             }
         } else if (requestCode == REQUEST_PHOTO) {
-            updateCrime();
             updatePhotoView();
         }
 

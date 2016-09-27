@@ -1,16 +1,12 @@
 package michael.com.criminalintent;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
-
-import michael.com.criminalintent.model.Crime;
 
 
 /**
  * Created by Mikhail on 8/18/16.
  */
-public class CrimeListActivity extends SingleFragmentActivity
-        implements CrimeListFragment.Callbacks, CrimeFragment.Callbacks {
+public class CrimeListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
@@ -21,29 +17,4 @@ public class CrimeListActivity extends SingleFragmentActivity
     protected int getLayoutResId() {
         return R.layout.activity_masterdetail;
     }
-
-    @Override
-    public void onCrimeSelected(Crime crime) {
-
-        if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = CrimeActivity.newIntent(this, crime.getId());
-            startActivity(intent);
-        } else {
-            Fragment newDetail = CrimeFragment.newInstance(crime.getId());
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_container, newDetail)
-                    .commit();
-        }
-
-    }
-
-    @Override
-    public void onCrimeUpdated(Crime crime) {
-        CrimeListFragment listFragment = (CrimeListFragment)
-                getSupportFragmentManager()
-                        .findFragmentById(R.id.fragment_container);
-        listFragment.updateUI();
-    }
-
 }
