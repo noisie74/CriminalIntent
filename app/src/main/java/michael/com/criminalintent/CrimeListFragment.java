@@ -112,6 +112,12 @@ public class CrimeListFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
+            case R.id.delete_crime_action:
+                crime = new Crime();
+                UUID crimeId = crime.getId();
+                CrimeLab.get(getActivity()).deleteCrime(crimeId);
+                Toast.makeText(getActivity(), R.string.deleted, Toast.LENGTH_SHORT).show();
+                mAdapter.notifyDataSetChanged();
             default:
                 return super.onOptionsItemSelected(item);
         }
